@@ -9,7 +9,7 @@ The product goal is simple: make a risky, command-heavy workflow feel like a cal
 ✅ **Steps 1-4 Complete** - The core application is implemented and functional!
 
 - ✅ Domain models and state machine
-- ✅ Unit tests with fixtures (65+ tests passing)
+- ✅ Unit tests with fixtures (6 tests passing)
 - ✅ Dry-run command runner for testing
 - ✅ Complete SwiftUI UI with all screens
 - ⏳ UI tests (Step 5 - Next)
@@ -26,6 +26,9 @@ The product goal is simple: make a risky, command-heavy workflow feel like a cal
 git clone https://github.com/yourusername/wInstaller.git
 cd wInstaller
 
+# Build everything
+swift build
+
 # Run tests
 swift test
 
@@ -36,12 +39,30 @@ swift run WInstallerApp
 open Package.swift
 ```
 
+### Command Line Tools only (no full Xcode)
+
+With only the Xcode Command Line Tools installed, `swift build` and
+`swift run WInstallerApp` work as-is. The Swift Testing macro plugin and
+runtime framework are not on the default search paths, so `swift test`
+needs a few extra flags:
+
+```bash
+swift test \
+  -Xswiftc -plugin-path -Xswiftc /Library/Developer/CommandLineTools/usr/lib/swift/host/plugins/testing \
+  -Xlinker -rpath -Xlinker /Library/Developer/CommandLineTools/Library/Developer/Frameworks \
+  -Xlinker -rpath -Xlinker /Library/Developer/CommandLineTools/Library/Developer/usr/lib
+```
+
+If the project lives in iCloud Drive, code-signing the test bundle can fail
+on extended-attribute "detritus"; add `--scratch-path /tmp/winstaller-build`
+(any path outside iCloud) to the command above.
+
 **Requirements:**
 - Swift 6.0+
 - macOS 15.0+
-- Xcode 16+ (for development)
+- Xcode 16+ or the Command Line Tools (for development)
 
-**Note:** The app currently operates in simulation mode. ISO analysis and USB operations are not yet connected to real hardware. See [UI_IMPLEMENTATION_COMPLETE.md](UI_IMPLEMENTATION_COMPLETE.md) for details.
+**Note:** The app currently operates in simulation (dry-run) mode. ISO analysis and USB operations are not yet connected to real hardware — the engine plans every command but executes none. See [BOOTABLE_USB_ENGINE.md](BOOTABLE_USB_ENGINE.md) for the engine's state machine.
 
 ## Planned Features
 
