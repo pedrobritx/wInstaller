@@ -1,0 +1,29 @@
+name: Docs lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  markdown-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check markdown links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: "yes"
+          config-file: ".github/mlc_config.json"
+
+  license-presence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assert license files exist
+        run: |
+          test -f LICENSE.md || { echo "::error::LICENSE.md is missing"; exit 1; }
+          test -f COMMERCIAL-LICENSE.md || { echo "::error::COMMERCIAL-LICENSE.md is missing"; exit 1; }
+          grep -q "LICENSE.md" README.md || { echo "::error::README.md does not link to LICENSE.md"; exit 1; }

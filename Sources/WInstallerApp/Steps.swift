@@ -1,6 +1,7 @@
 import SwiftUI
 import WInstallerCore
 
+// SCREEN: welcome
 struct WelcomeStep: View {
     @ObservedObject var model: AssistantModel
 
@@ -22,6 +23,7 @@ struct WelcomeStep: View {
     }
 }
 
+// SCREEN: choose-iso
 struct ChooseISOStep: View {
     @ObservedObject var model: AssistantModel
 
@@ -63,6 +65,7 @@ struct ChooseISOStep: View {
     }
 }
 
+// SCREEN: verify-iso
 struct VerifyISOStep: View {
     @ObservedObject var model: AssistantModel
 
@@ -87,6 +90,7 @@ struct VerifyISOStep: View {
     }
 }
 
+// SCREEN: insert-usb
 struct InsertUSBStep: View {
     @ObservedObject var model: AssistantModel
 
@@ -136,6 +140,7 @@ struct InsertUSBStep: View {
     }
 }
 
+// SCREEN: analyze-usb
 struct AnalyzeUSBStep: View {
     @ObservedObject var model: AssistantModel
 
@@ -154,6 +159,7 @@ struct AnalyzeUSBStep: View {
     }
 }
 
+// SCREEN: confirm-erase
 struct ConfirmEraseStep: View {
     @ObservedObject var model: AssistantModel
 
@@ -195,6 +201,7 @@ struct ConfirmEraseStep: View {
     }
 }
 
+// SCREEN: create-usb
 struct CreateUSBStep: View {
     @ObservedObject var model: AssistantModel
 
@@ -222,6 +229,7 @@ struct CreateUSBStep: View {
     }
 }
 
+// SCREEN: done
 struct DoneStep: View {
     @ObservedObject var model: AssistantModel
 
@@ -240,6 +248,7 @@ struct DoneStep: View {
     }
 }
 
+// SCREEN: use-with-vmware
 struct VMwareStep: View {
     @ObservedObject var model: AssistantModel
 

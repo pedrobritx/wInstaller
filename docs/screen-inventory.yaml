@@ -1,0 +1,87 @@
+# Canonical screen/step registry for wInstaller.
+#
+# This is the single source of truth for "what screens exist" across the three
+# native UIs (macOS/SwiftUI, Windows/WinUI3, Linux/GTK4). Each step below must be
+# implemented by every platform listed as "implemented", or explicitly marked
+# "planned"/"not-applicable" — never silently missing.
+#
+# scripts/check_screen_parity.py greps each platform's UI source tree for a
+# marker comment referencing the step id (e.g. `// SCREEN: confirm-erase`) and
+# fails CI if an "implemented" step has no matching marker, or a marker exists
+# with no corresponding entry here. See docs/adr/0008-feature-parity-enforcement.md.
+#
+# Step ids and purposes are derived from USER_FLOW.md — keep this file and that
+# doc in sync.
+
+steps:
+  - id: welcome
+    purpose: Set expectations and establish trust before any file/drive selection.
+    required_data: []
+    platforms:
+      macos: implemented
+      windows: planned
+      linux: planned
+
+  - id: choose-iso
+    purpose: Import the operating system installer ISO.
+    required_data: [iso_path]
+    platforms:
+      macos: implemented
+      windows: planned
+      linux: planned
+
+  - id: verify-iso
+    purpose: Explain what the app detected about the selected ISO (OS, confidence, boot strategy, WIM status).
+    required_data: [iso_name, iso_size, volume_label, detected_os, confidence, boot_strategy]
+    platforms:
+      macos: implemented
+      windows: planned
+      linux: planned
+
+  - id: insert-usb
+    purpose: Detect and list removable USB drives, hiding internal disks by default.
+    required_data: [drive_list]
+    platforms:
+      macos: implemented
+      windows: planned
+      linux: planned
+
+  - id: analyze-usb
+    purpose: Explain what will change on the selected drive before confirmation.
+    required_data: [drive_details, current_partition_scheme, required_format]
+    platforms:
+      macos: implemented
+      windows: planned
+      linux: planned
+
+  - id: confirm-erase
+    purpose: High-friction, explicit confirmation naming the exact drive before any destructive action.
+    required_data: [drive_name, drive_identifier, drive_capacity]
+    platforms:
+      macos: implemented
+      windows: planned
+      linux: planned
+
+  - id: create-usb
+    purpose: Execute the erase/format/copy/split-WIM/validate/eject pipeline with live progress.
+    required_data: [progress_checklist]
+    platforms:
+      macos: implemented
+      windows: planned
+      linux: planned
+
+  - id: done
+    purpose: Confirm the result and show the validation checklist.
+    required_data: [usb_name, usb_identifier, detected_os, validation_checklist]
+    platforms:
+      macos: implemented
+      windows: planned
+      linux: planned
+
+  - id: use-with-vmware
+    purpose: Help the user continue into VMware Fusion / UTM / Parallels.
+    required_data: [virtualization_apps_detected]
+    platforms:
+      macos: implemented
+      windows: not-applicable
+      linux: not-applicable

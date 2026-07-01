@@ -1,0 +1,183 @@
+/* wInstaller landing page styles.
+   Values mirror shared/design-tokens/tokens.json — keep in sync by hand until
+   a build step generates this automatically (see docs/adr/0008). */
+
+:root {
+  --color-accent: #0A84FF;
+  --color-neutral-glyph: #8E8E93;
+  --color-success: #34C759;
+  --color-warning: #FFD60A;
+  --color-destructive: #FF3B30;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-xxl: 32px;
+
+  --radius-control: 8px;
+  --radius-card: 8px;
+
+  --bg: #0b0b0d;
+  --bg-elevated: #16161a;
+  --text-primary: #f2f2f7;
+  --text-secondary: #a1a1a6;
+  --border: #2c2c30;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+a { color: var(--color-accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+}
+
+header.hero {
+  padding: 96px 0 64px;
+  text-align: center;
+}
+
+.hero .icon {
+  width: 96px;
+  height: 96px;
+  border-radius: 22px;
+  margin-bottom: var(--space-lg);
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin: 0 0 var(--space-md);
+  letter-spacing: -0.02em;
+}
+
+.hero p.tagline {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  max-width: 560px;
+  margin: 0 auto var(--space-xxl);
+}
+
+.downloads {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.download-button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-xl);
+  border-radius: var(--radius-control);
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.download-button:hover { border-color: var(--color-accent); text-decoration: none; }
+
+.download-button .platform-name { font-size: 0.95rem; }
+.download-button .status-badge {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: rgba(255,255,255,0.06);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+section {
+  padding: 56px 0;
+  border-top: 1px solid var(--border);
+}
+
+section h2 {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-lg);
+}
+
+.manifesto p {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 640px;
+}
+
+.manifesto blockquote {
+  margin: var(--space-xl) 0;
+  padding-left: var(--space-lg);
+  border-left: 3px solid var(--color-accent);
+  color: var(--text-primary);
+  font-style: italic;
+}
+
+.screenshot {
+  width: 100%;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border);
+  margin-top: var(--space-lg);
+}
+
+.principles {
+  list-style: none;
+  margin: var(--space-lg) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-md);
+}
+
+.principles li {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: var(--space-lg);
+}
+
+.principles strong { color: var(--color-accent); }
+
+.about-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.about-links a {
+  padding: var(--space-sm) var(--space-lg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  color: var(--text-primary);
+}
+
+.about-links a:hover { border-color: var(--color-accent); text-decoration: none; }
+
+.license-summary {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: var(--space-xl);
+}
+
+.license-summary p { color: var(--text-secondary); }
+
+footer {
+  padding: var(--space-xxl) 0;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}

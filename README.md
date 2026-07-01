@@ -1,83 +1,91 @@
-# wInstaller
+<p align="center">
+  <img src="Assets/AppIcon.appiconset/icon_256.png" width="96" alt="wInstaller icon">
+</p>
 
-wInstaller is a macOS installation assistant for creating bootable USB drives from Windows and Linux ISO files, then helping the user continue into VMware Fusion or another local virtualization app.
+<h1 align="center">wInstaller</h1>
 
-The product goal is simple: make a risky, command-heavy workflow feel like a calm first-party macOS assistant. The app must explain what it is doing, ask before destructive actions, validate the result, and keep all files local.
+<p align="center">
+  A calm, native assistant for building bootable Windows and Linux USB installers —
+  on macOS, Windows, and Linux. No telemetry, no uploads, everything local.
+</p>
+
+<p align="center">
+  <a href="https://github.com/pedrobritx/winstaller/actions/workflows/ci-macos.yml"><img alt="macOS CI" src="https://github.com/pedrobritx/winstaller/actions/workflows/ci-macos.yml/badge.svg"></a>
+  <a href="https://github.com/pedrobritx/winstaller/actions/workflows/docs-lint.yml"><img alt="Docs lint" src="https://github.com/pedrobritx/winstaller/actions/workflows/docs-lint.yml/badge.svg"></a>
+  <a href="LICENSE.md"><img alt="License: Noncommercial" src="https://img.shields.io/badge/license-noncommercial-blue"></a>
+</p>
+
+wInstaller helps you create bootable operating system USB drives and continue
+into local virtualization, without learning disk utilities, ISO internals,
+FAT32 limits, or boot firmware rules. The app explains what it is doing, asks
+before destructive actions, validates the result, and keeps everything local.
+
+**wInstaller is expanding from macOS-only to macOS, Windows, and Linux.** Each
+platform gets a fully native UI — SwiftUI, WinUI 3, and GTK4/libadwaita — built
+on one shared Rust core engine. See [Architecture](#architecture) below and
+[docs/adr/](docs/adr/) for the full reasoning.
+
+## Download
+
+| macOS | Windows | Linux |
+|---|---|---|
+| [Releases](https://github.com/pedrobritx/winstaller/releases) | *Coming soon (Phase 3)* | *Coming soon (Phase 2)* |
+
+Until signed release artifacts exist for a platform, build from source — see below.
 
 ## Status
 
-✅ **Feature-complete assistant with real system integration.**
+The macOS app is feature-complete for the first-release happy path:
 
-- ✅ Domain models and typed state machine (`WInstallerCore`)
-- ✅ Unit + fixture tests (engine, parsers, executor)
-- ✅ Real command runner (`Process`, argv-only) plus a dry-run runner for tests
-- ✅ Live USB enumeration (`diskutil -plist`) with internal-disk filtering
-- ✅ ISO mount + inspection (`hdiutil`, read-only)
-- ✅ Real bootable-USB execution pipeline with the full safety gate
-- ✅ VMware Fusion / UTM / Parallels detection and handoff
-- ✅ Local logging with home-path redaction
-- ✅ Liquid Glass SwiftUI interface (macOS 26) with native-material fallback
-- ✅ App icon (`AppIcon.appiconset` / `.iconset`) and `.app` packaging script
-
-**Current State:** wInstaller is a native macOS assistant that walks the user
-through ISO selection, live USB detection, an explicit typed-name erase
-confirmation, and real bootable-media creation — or a full **Simulate (dry-run)**
-pass that exercises the same code path without touching a disk. Every
-destructive step is gated: the drive identity is re-checked immediately before
-erase and the run aborts on any mismatch or internal disk.
+- Domain models and typed state machine (`WInstallerCore`)
+- Unit + fixture tests (engine, parsers, executor)
+- Real command runner (`Process`, argv-only) plus a dry-run runner for tests
+- Live USB enumeration (`diskutil -plist`) with internal-disk filtering
+- ISO mount + inspection (`hdiutil`, read-only)
+- Real bootable-USB execution pipeline with the full safety gate
+- VMware Fusion / UTM / Parallels detection and handoff
+- Local logging with home-path redaction
+- Liquid Glass SwiftUI interface (macOS 26) with native-material fallback
+- App icon and `.app` packaging script
 
 > **Safety note:** Real disk operations format the selected removable drive.
 > Always verify the target and prefer the Simulate toggle first. Destructive
 > operations have not been run on hardware in CI — test on a spare USB.
 
-## Installation
+Windows and Linux native apps are planned (see [ROADMAP.md](ROADMAP.md) and the
+phased delivery plan referenced from the ADRs).
 
-### Running the App
+## Building from source
+
+### macOS
 
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/wInstaller.git
-cd wInstaller
+git clone https://github.com/pedrobritx/winstaller.git
+cd winstaller
 
-# Build everything
 swift build
-
-# Run tests
 swift test
-
-# Run the app (bare SwiftPM executable)
-swift run WInstallerApp
-
-# Or open in Xcode
-open Package.swift
+swift run WInstallerApp        # bare SwiftPM executable
+# or: open Package.swift        # in Xcode
 ```
 
 > **Build requirement for Liquid Glass:** the interface uses macOS 26 Liquid
-> Glass APIs (`.glassEffect`, `GlassEffectContainer`, `.buttonStyle(.glass)`)
-> gated behind `if #available(macOS 26.0, *)`. Building therefore requires the
-> **macOS 26 SDK (Xcode 26+)**, while the app still runs on macOS 15 via the
+> Glass APIs gated behind `if #available(macOS 26.0, *)`. Building requires the
+> macOS 26 SDK (Xcode 26+); the app still runs on macOS 15 via the
 > native-material fallback (deployment target stays at macOS 15).
 
-### Build a real `.app` bundle
+To build a real `.app` bundle:
 
 ```bash
-# Generate the app icon assets (pure Python, no dependencies)
-python3 Assets/Icon/generate_icon.py
-
-# Assemble build/wInstaller.app (builds .icns, copies Info.plist, ad-hoc signs)
-Scripts/build-app.sh
+python3 Assets/Icon/generate_icon.py   # generate app icon assets
+Scripts/build-app.sh                   # assemble build/wInstaller.app
 open build/wInstaller.app
 ```
 
-For distribution, replace the ad-hoc signature in `Scripts/build-app.sh` with a
-Developer ID identity and notarize the result.
-
-### Command Line Tools only (no full Xcode)
-
-With only the Xcode Command Line Tools installed, `swift build` and
-`swift run WInstallerApp` work as-is. The Swift Testing macro plugin and
-runtime framework are not on the default search paths, so `swift test`
-needs a few extra flags:
+With only the Xcode Command Line Tools installed (no full Xcode), `swift build`
+and `swift run WInstallerApp` work as-is, but `swift test` needs extra flags
+since the Swift Testing macro plugin and runtime framework aren't on the
+default search paths:
 
 ```bash
 swift test \
@@ -86,24 +94,20 @@ swift test \
   -Xlinker -rpath -Xlinker /Library/Developer/CommandLineTools/Library/Developer/usr/lib
 ```
 
-If the project lives in iCloud Drive, code-signing the test bundle can fail
-on extended-attribute "detritus"; add `--scratch-path /tmp/winstaller-build`
-(any path outside iCloud) to the command above.
+**Requirements:** Swift 6.0+, macOS 15.0+, Xcode 16+ or Command Line Tools.
 
-**Requirements:**
-- Swift 6.0+
-- macOS 15.0+
-- Xcode 16+ or the Command Line Tools (for development)
+### Windows *(planned — Phase 3)*
 
-**Note:** The app now performs real ISO inspection, live USB enumeration, and
-(on confirmation) real disk operations through `diskutil`, `hdiutil`, `rsync`,
-and `wimlib-imagex`. A **Simulate (dry-run)** toggle on the confirmation screen
-runs the identical pipeline through a fake command runner so no disk is touched.
-See [BOOTABLE_USB_ENGINE.md](BOOTABLE_USB_ENGINE.md) for the engine's state
-machine and [TERMINAL_AUTOMATION.md](TERMINAL_AUTOMATION.md) for the command
-policy.
+The Windows app (WinUI 3 + C#/.NET, `apps/windows/`) does not exist yet. Once it
+lands, build instructions will appear here (`dotnet build` against
+`WInstaller.sln`).
 
-## Planned Features
+### Linux *(planned — Phase 2)*
+
+The Linux app (GTK4 + libadwaita, written in Rust, `apps/linux/`) does not exist
+yet. Once it lands, build instructions will appear here (`cargo build`).
+
+## Features
 
 - Detect and verify ISO files.
 - Detect Windows and Linux installation media.
@@ -117,19 +121,32 @@ policy.
 - Keep logs local and readable.
 - Avoid telemetry, uploads, and hidden network behavior.
 
-## Design Direction
-
-The visual direction is documented in [UI_GUIDELINES.md](UI_GUIDELINES.md), [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md), and [ICON_GUIDELINES.md](ICON_GUIDELINES.md).
-
-Reference mockup:
+## Screenshot
 
 ![wInstaller product direction](Assets/Screens/product-direction.png)
 
-Official Apple design references:
+## Why this exists
 
-- [Apple Human Interface Guidelines: App icons](https://developer.apple.com/design/human-interface-guidelines/app-icons)
-- [Apple Human Interface Guidelines: Icons](https://developer.apple.com/design/human-interface-guidelines/icons)
-- [Apple Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines)
+wInstaller should feel like something a first-party disk utility would be if it
+actually explained itself: it explains what it found, asks before anything
+destructive happens, validates the result, and never leaves the machine it runs
+on. Read the [full manifesto on the landing page](https://pedrobritx.github.io/winstaller/)
+or [VISION.md](VISION.md) for the complete set of interaction principles.
+
+## Architecture
+
+wInstaller is three native UIs sharing one Rust core engine:
+
+- **macOS**: SwiftUI, calling into the core via a Swift wrapper package.
+- **Windows**: WinUI 3 + C#/.NET, calling into the core via P/Invoke.
+- **Linux**: GTK4 + libadwaita, written directly in Rust against the core crate
+  (no FFI boundary).
+
+The core (state machine, disk/ISO domain models, error taxonomy, and the
+per-OS `SystemAdapter` trait) is the *only* shared layer — each UI is fully
+native, with no cross-platform UI framework. See [ARCHITECTURE.md](ARCHITECTURE.md)
+and every decision record under [docs/adr/](docs/adr/), starting with
+[docs/adr/0001-core-language-and-ffi.md](docs/adr/0001-core-language-and-ffi.md).
 
 ## Documentation Map
 
@@ -138,7 +155,7 @@ Official Apple design references:
 - [REQUIREMENTS.md](REQUIREMENTS.md): functional and non-functional requirements.
 - [USER_FLOW.md](USER_FLOW.md): screen-by-screen assistant flow.
 - [ARCHITECTURE.md](ARCHITECTURE.md): app structure, modules, and state model.
-- [UI_GUIDELINES.md](UI_GUIDELINES.md): macOS interface rules.
+- [UI_GUIDELINES.md](UI_GUIDELINES.md): per-OS interface rules.
 - [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md): reusable visual and component standards.
 - [TERMINAL_AUTOMATION.md](TERMINAL_AUTOMATION.md): allowed commands, policies, and error recovery.
 - [BOOTABLE_USB_ENGINE.md](BOOTABLE_USB_ENGINE.md): bootable media engine state machine.
@@ -147,31 +164,28 @@ Official Apple design references:
 - [ICON_GUIDELINES.md](ICON_GUIDELINES.md): app icon and interface icon direction.
 - [AI_RULES.md](AI_RULES.md): implementation rules for coding agents.
 - [ROADMAP.md](ROADMAP.md): phased delivery plan.
-- [Prompts](Prompts): focused prompts for future implementation passes.
-
-## Recommended Build Order
-
-1. Read [AI_RULES.md](AI_RULES.md).
-2. Implement the Swift domain models and state machine from [BOOTABLE_USB_ENGINE.md](BOOTABLE_USB_ENGINE.md).
-3. Build dry-run command wrappers from [TERMINAL_AUTOMATION.md](TERMINAL_AUTOMATION.md).
-4. Build the SwiftUI assistant from [USER_FLOW.md](USER_FLOW.md).
-5. Add VMware detection from [VMWARE_INTEGRATION.md](VMWARE_INTEGRATION.md).
-6. Add integration tests and fixture-driven command parsing.
-7. Package, sign, notarize, and document the release.
-
-## Technology Direction
-
-- Platform: macOS 26+ target, with compatibility decisions documented before lowering deployment targets.
-- Language: Swift 6.
-- UI: SwiftUI first, AppKit only where platform integration requires it.
-- Concurrency: Swift concurrency with cancellation-aware tasks.
-- Persistence: lightweight local preferences; SwiftData only if durable history becomes necessary.
-- Testing: unit tests for parsing and state transitions, integration tests for dry-run command planning, UI tests for the assistant flow.
+- [docs/adr/](docs/adr/): architecture decision records for the multi-platform evolution.
+- [docs/screen-inventory.yaml](docs/screen-inventory.yaml): canonical screen/step registry used for cross-platform parity checks.
 
 ## Contributing
 
-Before implementing a feature, read [AI_RULES.md](AI_RULES.md) and update the relevant specification file when behavior changes.
+Read [AI_RULES.md](AI_RULES.md) and [CONTRIBUTING.md](CONTRIBUTING.md) before
+implementing a feature. Because the three UIs are separate native codebases
+sharing only the core engine, a user-visible feature must be reflected across
+all three (or explicitly tracked as pending) — see
+[docs/adr/0008-feature-parity-enforcement.md](docs/adr/0008-feature-parity-enforcement.md).
 
 ## License
 
-No license has been selected yet.
+wInstaller is free to use, share, modify, and fork for any **noncommercial**
+purpose (forks must remain noncommercial too). Commercial use requires a
+separate license — see [COMMERCIAL-LICENSE.md](COMMERCIAL-LICENSE.md) for how
+to request one. Full terms: [LICENSE.md](LICENSE.md).
+
+## Developer
+
+Built and maintained by Pedro Brito.
+
+- [Linktree](https://pedrobritx.github.io/EwP)
+- [Buy Me a Coffee](https://www.buymeacoffee.com/pedrobritx)
+- [GitHub — Contribute](https://github.com/pedrobritx/winstaller)

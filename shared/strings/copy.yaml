@@ -1,0 +1,92 @@
+# Single source of truth for user-facing copy across all three wInstaller UIs.
+#
+# Keyed by canonical step id (see docs/screen-inventory.yaml) plus a sub-key.
+# Do NOT hardcode user-facing strings per-platform — add/edit them here, then
+# regenerate the per-platform outputs:
+#   scripts/gen_strings_swift.py   -> apps/macos/.../Localizable.xcstrings
+#   scripts/gen_strings_dotnet.py  -> apps/windows/.../Strings.resx
+#   scripts/gen_strings_gettext.py -> apps/linux/po/winstaller.pot
+#
+# CI (strings-sync-check) regenerates all three and fails if committed output
+# differs from what this file produces. See docs/adr/0008-feature-parity-enforcement.md.
+
+about:
+  tagline: "A calm, native assistant for building bootable Windows and Linux USB installers — on macOS, Windows, and Linux."
+  manifesto_excerpt: >-
+    wInstaller should feel like something a first-party disk utility would be if
+    it actually explained itself. No telemetry, no uploads, no vague "optimizing"
+    language — just a local assistant that tells you what it found, what it's
+    about to do, and why.
+
+welcome:
+  title: "Create a bootable installer USB"
+  subtitle: "wInstaller guides ISO selection, USB verification, erase confirmation, copy planning, validation, and virtualization handoff."
+  info_iso_title: "ISO file"
+  info_iso_body: "Choose Windows or Linux installation media."
+  info_usb_title: "USB drive"
+  info_usb_body: "Use removable media with enough capacity."
+  info_confirmation_title: "Confirmation"
+  info_confirmation_body: "Erase is blocked until the drive name is typed."
+  info_local_title: "Local only"
+  info_local_body: "Every operation runs on this machine. No uploads."
+
+choose-iso:
+  title: "Choose an ISO file"
+  subtitle: "Select installation media. The importer rejects non-ISO files, then wInstaller mounts it read-only to analyze."
+  action_choose: "Choose ISO"
+  status_mounting: "Mounting and analyzing…"
+
+verify-iso:
+  title: "Verify the installer"
+  subtitle: "wInstaller explains what it detected before a USB drive is selected."
+  field_os: "Operating system"
+  field_confidence: "Confidence"
+  field_boot_files: "Boot files"
+  field_wim_status: "WIM status"
+  wim_split_required: "Split required"
+  wim_no_split: "No split required"
+
+insert-usb:
+  title: "Select a removable USB drive"
+  subtitle: "Internal disks are hidden and refused by the planning engine."
+  action_refresh: "Refresh"
+  status_looking: "Looking for removable drives…"
+  empty_title: "Connect a removable USB drive"
+  empty_message: "Plug in a USB drive, then choose Refresh. Internal disks are never shown."
+
+analyze-usb:
+  title: "Review the operation plan"
+  subtitle: "wInstaller plans every command as arguments and marks destructive steps explicitly."
+
+confirm-erase:
+  title: "Confirm erase"
+  subtitle: "Type the exact USB drive name to unlock the destructive operation."
+  warning: "All data on {drive_name} will be erased."
+  detail_format: "Identifier: {identifier} · Capacity: {capacity} · Volumes: {volumes}"
+  field_placeholder: "Type {drive_name}"
+  simulate_title: "Simulate (dry-run)"
+  simulate_body: "Run the full sequence without erasing anything."
+  action_confirm: "Erase and Create Bootable USB"
+  action_cancel: "Cancel"
+
+create-usb:
+  title_real: "Creating bootable USB"
+  title_simulate: "Simulating USB creation"
+  subtitle_real: "wInstaller is preparing the drive, copying files, and validating boot media."
+  subtitle_simulate: "Dry-run mode: wInstaller runs the full checklist without executing any destructive command."
+  action_cancel: "Cancel"
+
+done:
+  title_real: "Bootable USB is ready"
+  title_simulate: "Dry run completed"
+  subtitle_real: "The installer USB was created, validated, and safely ejected."
+  subtitle_simulate: "The simulated checklist completed. Turn off Simulate to create real media."
+
+use-with-vmware:
+  title: "Use with a virtualization app"
+  subtitle: "wInstaller does not create or start virtual machines without explicit user intent."
+  detected_title: "Virtualization app detected"
+  action_open: "Open"
+  not_installed_title: "No supported virtualization app is installed"
+  not_installed_message: "You can still use the USB you created. Install a virtualization app to continue in a VM."
+  license_reminder: "Windows may require a valid license."
