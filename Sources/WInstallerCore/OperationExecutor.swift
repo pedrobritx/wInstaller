@@ -56,7 +56,12 @@ public actor OperationExecutor {
         self.enumerator = enumerator ?? DiskEnumerator(runner: runner)
         self.logger = logger
         self.fileManager = fileManager
-        let fm = fileManager
+        // `FileManager`'s instance methods (including `fileExists(atPath:)`) are
+        // documented as safe to call from multiple threads, so capturing it in
+        // this `@Sendable` closure is safe despite `FileManager` itself predating
+        // `Sendable` conformance. Same rationale as `CommandRunner.swift`'s
+        // `nonisolated(unsafe) let proc = process`.
+        nonisolated(unsafe) let fm = fileManager
         self.validateExisting = validateExisting ?? { paths in
             paths.filter { !fm.fileExists(atPath: $0) }
         }
