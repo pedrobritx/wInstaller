@@ -177,3 +177,20 @@ Do not store ISO contents, checksums of private files unless user initiated, or 
 - Fake command runner tests for failure recovery.
 - UI tests for the assistant flow.
 
+## Implementation Map
+
+The layers above map to these source files:
+
+- Domain + planner: `Sources/WInstallerCore/WInstallerCore.swift`
+  (`BootableUSBEngine`, models, error taxonomy).
+- Command runner: `CommandRunner.swift` (`CommandRunning`, `ProcessCommandRunner`,
+  `DryRunCommandRunner`).
+- Disk management: `DiskEnumerator.swift` (`diskutil -plist` parsing + filtering).
+- ISO analysis: `ISOInspector.swift` (`hdiutil` mount + directory scan).
+- Execution: `OperationExecutor.swift` (actor; streams typed `EngineEvent`s,
+  re-checks disk identity before erase).
+- Virtualization: `VirtualizationDetector.swift` (injectable `ApplicationLocating`).
+- Logging: `LocalLogger.swift` (actor; redacted local transcript).
+- Presentation: `Sources/WInstallerApp/` — `AssistantModel` (flow coordinator),
+  `DesignSystem/` (Liquid Glass), `Components.swift`, `Steps.swift`.
+

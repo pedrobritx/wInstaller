@@ -14,7 +14,8 @@ let package = Package(
         .target(name: "WInstallerCore"),
         .executableTarget(
             name: "WInstallerApp",
-            dependencies: ["WInstallerCore"]
+            dependencies: ["WInstallerCore"],
+            exclude: ["Info.plist"]
         ),
         .testTarget(
             name: "WInstallerCoreTests",

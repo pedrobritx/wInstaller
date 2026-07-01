@@ -6,16 +6,29 @@ The product goal is simple: make a risky, command-heavy workflow feel like a cal
 
 ## Status
 
-✅ **Steps 1-4 Complete** - The core application is implemented and functional!
+✅ **Feature-complete assistant with real system integration.**
 
-- ✅ Domain models and state machine
-- ✅ Unit tests with fixtures (6 tests passing)
-- ✅ Dry-run command runner for testing
-- ✅ Complete SwiftUI UI with all screens
-- ⏳ UI tests (Step 5 - Next)
-- ⏳ Real hardware integration (Step 6 - After UI tests)
+- ✅ Domain models and typed state machine (`WInstallerCore`)
+- ✅ Unit + fixture tests (engine, parsers, executor)
+- ✅ Real command runner (`Process`, argv-only) plus a dry-run runner for tests
+- ✅ Live USB enumeration (`diskutil -plist`) with internal-disk filtering
+- ✅ ISO mount + inspection (`hdiutil`, read-only)
+- ✅ Real bootable-USB execution pipeline with the full safety gate
+- ✅ VMware Fusion / UTM / Parallels detection and handoff
+- ✅ Local logging with home-path redaction
+- ✅ Liquid Glass SwiftUI interface (macOS 26) with native-material fallback
+- ✅ App icon (`AppIcon.appiconset` / `.iconset`) and `.app` packaging script
 
-**Current State:** The app has a complete, working UI that simulates the full user flow. All screens are implemented, accessible, and polished. Ready for UI testing and hardware integration.
+**Current State:** wInstaller is a native macOS assistant that walks the user
+through ISO selection, live USB detection, an explicit typed-name erase
+confirmation, and real bootable-media creation — or a full **Simulate (dry-run)**
+pass that exercises the same code path without touching a disk. Every
+destructive step is gated: the drive identity is re-checked immediately before
+erase and the run aborts on any mismatch or internal disk.
+
+> **Safety note:** Real disk operations format the selected removable drive.
+> Always verify the target and prefer the Simulate toggle first. Destructive
+> operations have not been run on hardware in CI — test on a spare USB.
 
 ## Installation
 
@@ -32,12 +45,32 @@ swift build
 # Run tests
 swift test
 
-# Run the app
+# Run the app (bare SwiftPM executable)
 swift run WInstallerApp
 
 # Or open in Xcode
 open Package.swift
 ```
+
+> **Build requirement for Liquid Glass:** the interface uses macOS 26 Liquid
+> Glass APIs (`.glassEffect`, `GlassEffectContainer`, `.buttonStyle(.glass)`)
+> gated behind `if #available(macOS 26.0, *)`. Building therefore requires the
+> **macOS 26 SDK (Xcode 26+)**, while the app still runs on macOS 15 via the
+> native-material fallback (deployment target stays at macOS 15).
+
+### Build a real `.app` bundle
+
+```bash
+# Generate the app icon assets (pure Python, no dependencies)
+python3 Assets/Icon/generate_icon.py
+
+# Assemble build/wInstaller.app (builds .icns, copies Info.plist, ad-hoc signs)
+Scripts/build-app.sh
+open build/wInstaller.app
+```
+
+For distribution, replace the ad-hoc signature in `Scripts/build-app.sh` with a
+Developer ID identity and notarize the result.
 
 ### Command Line Tools only (no full Xcode)
 
@@ -62,7 +95,13 @@ on extended-attribute "detritus"; add `--scratch-path /tmp/winstaller-build`
 - macOS 15.0+
 - Xcode 16+ or the Command Line Tools (for development)
 
-**Note:** The app currently operates in simulation (dry-run) mode. ISO analysis and USB operations are not yet connected to real hardware — the engine plans every command but executes none. See [BOOTABLE_USB_ENGINE.md](BOOTABLE_USB_ENGINE.md) for the engine's state machine.
+**Note:** The app now performs real ISO inspection, live USB enumeration, and
+(on confirmation) real disk operations through `diskutil`, `hdiutil`, `rsync`,
+and `wimlib-imagex`. A **Simulate (dry-run)** toggle on the confirmation screen
+runs the identical pipeline through a fake command runner so no disk is touched.
+See [BOOTABLE_USB_ENGINE.md](BOOTABLE_USB_ENGINE.md) for the engine's state
+machine and [TERMINAL_AUTOMATION.md](TERMINAL_AUTOMATION.md) for the command
+policy.
 
 ## Planned Features
 

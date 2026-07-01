@@ -1,5 +1,15 @@
 # Roadmap
 
+## Implementation status (current)
+
+Delivered so far: the assistant shell and mock data (0.1); real ISO/USB analysis,
+disk-safety filtering, and dry-run planning (0.2); the erase→format→copy→validate→
+eject execution pipeline with the identity-recheck safety gate (0.3); oversized
+`install.wim` detection and `wimlib-imagex` splitting (0.4); and VMware Fusion /
+UTM / Parallels detection with a guided handoff (0.5). Remaining before 1.0:
+hardware QA on real media, Linux distro-family validation (0.6), advanced recovery
+and support-bundle export (0.7), and Developer ID signing + notarization (1.0).
+
 ## 0.1: Product Foundation
 
 Goals:
