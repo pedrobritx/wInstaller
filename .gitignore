@@ -21,3 +21,9 @@ xcuserdata/
 __pycache__/
 *.pyc
 
+
+# .NET / WinUI (apps/windows)
+bin/
+obj/
+publish/
+*.user

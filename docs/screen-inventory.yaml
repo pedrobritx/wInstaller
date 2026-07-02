@@ -19,7 +19,7 @@ steps:
     required_data: []
     platforms:
       macos: implemented
-      windows: planned
+      windows: implemented
       linux: planned
 
   - id: choose-iso
@@ -27,7 +27,7 @@ steps:
     required_data: [iso_path]
     platforms:
       macos: implemented
-      windows: planned
+      windows: implemented
       linux: planned
 
   - id: verify-iso
@@ -35,7 +35,7 @@ steps:
     required_data: [iso_name, iso_size, volume_label, detected_os, confidence, boot_strategy]
     platforms:
       macos: implemented
-      windows: planned
+      windows: implemented
       linux: planned
 
   - id: insert-usb
@@ -43,7 +43,7 @@ steps:
     required_data: [drive_list]
     platforms:
       macos: implemented
-      windows: planned
+      windows: implemented
       linux: planned
 
   - id: analyze-usb
@@ -51,7 +51,7 @@ steps:
     required_data: [drive_details, current_partition_scheme, required_format]
     platforms:
       macos: implemented
-      windows: planned
+      windows: implemented
       linux: planned
 
   - id: confirm-erase
@@ -59,7 +59,7 @@ steps:
     required_data: [drive_name, drive_identifier, drive_capacity]
     platforms:
       macos: implemented
-      windows: planned
+      windows: implemented
       linux: planned
 
   - id: create-usb
@@ -67,7 +67,7 @@ steps:
     required_data: [progress_checklist]
     platforms:
       macos: implemented
-      windows: planned
+      windows: implemented
       linux: planned
 
   - id: done
@@ -75,7 +75,7 @@ steps:
     required_data: [usb_name, usb_identifier, detected_os, validation_checklist]
     platforms:
       macos: implemented
-      windows: planned
+      windows: implemented
       linux: planned
 
   - id: use-with-vmware

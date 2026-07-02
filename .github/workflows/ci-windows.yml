@@ -1,0 +1,50 @@
+name: Windows
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  core-tests:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Test core library
+        run: dotnet test apps/windows/WInstaller.Core.Tests/WInstaller.Core.Tests.csproj
+
+  # The core targets plain net8.0 by design (see apps/windows/README.md), so
+  # the same tests also run on Linux — proving no accidental Windows-only APIs
+  # leak into the domain layer.
+  core-tests-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Test core library
+        run: dotnet test apps/windows/WInstaller.Core.Tests/WInstaller.Core.Tests.csproj
+
+  app-build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Publish WinUI 3 app (unpackaged, self-contained)
+        run: >
+          dotnet publish apps/windows/WInstaller.App/WInstaller.App.csproj
+          -c Release -r win-x64 -p:Platform=x64
+          -p:WindowsAppSDKSelfContained=true --self-contained true
+          -o ${{ runner.temp }}/publish

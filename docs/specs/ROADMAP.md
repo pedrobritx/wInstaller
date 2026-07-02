@@ -2,13 +2,25 @@
 
 ## Implementation status (current)
 
-Delivered so far: the assistant shell and mock data (0.1); real ISO/USB analysis,
-disk-safety filtering, and dry-run planning (0.2); the erase→format→copy→validate→
-eject execution pipeline with the identity-recheck safety gate (0.3); oversized
-`install.wim` detection and `wimlib-imagex` splitting (0.4); and VMware Fusion /
-UTM / Parallels detection with a guided handoff (0.5). Remaining before 1.0:
-hardware QA on real media, Linux distro-family validation (0.6), advanced recovery
-and support-bundle export (0.7), and Developer ID signing + notarization (1.0).
+Delivered so far on macOS: the assistant shell and mock data (0.1); real ISO/USB
+analysis, disk-safety filtering, and dry-run planning (0.2); the erase→format→
+copy→validate→eject execution pipeline with the identity-recheck safety gate
+(0.3); oversized `install.wim` detection and `wimlib-imagex` splitting (0.4); and
+VMware Fusion / UTM / Parallels detection with a guided handoff (0.5).
+
+Delivered on Windows (`apps/windows/`): the full native WinUI 3 + C#/.NET app
+covering the same happy path — C# domain core with the same state machine and
+safety gates, PowerShell-based disk enumeration and read-only ISO inspection,
+the elevated-once erase→GPT/FAT32 format→robocopy→validate→eject pipeline,
+`DISM /Split-Image` for oversized WIMs, Simulate mode, redacted local logging,
+and CI (build + tests on a Windows runner, plus a portable-zip release
+workflow). The virtualization-handoff step is not-applicable on Windows per
+`docs/screen-inventory.yaml`.
+
+Remaining before 1.0: hardware QA on real media (macOS and Windows), Linux
+distro-family validation (0.6), the Linux native app (Phase 2), advanced
+recovery and support-bundle export (0.7), and per-OS release signing —
+Developer ID + notarization on macOS, Authenticode/MSIX on Windows (1.0).
 
 ## 0.1: Product Foundation
 

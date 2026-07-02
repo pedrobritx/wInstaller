@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  GENERATED FILE - DO NOT EDIT BY HAND.
+  Source of truth: shared/strings/copy.yaml
+  Regenerate with: python3 scripts/gen_strings_dotnet.py
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="about.manifesto_excerpt" xml:space="preserve">
+    <value>wInstaller should feel like something a first-party disk utility would be if it actually explained itself. No telemetry, no uploads, no vague "optimizing" language — just a local assistant that tells you what it found, what it's about to do, and why.</value>
+  </data>
+  <data name="about.tagline" xml:space="preserve">
+    <value>A calm, native assistant for building bootable Windows and Linux USB installers — on macOS, Windows, and Linux.</value>
+  </data>
+  <data name="analyze-usb.subtitle" xml:space="preserve">
+    <value>wInstaller plans every command as arguments and marks destructive steps explicitly.</value>
+  </data>
+  <data name="analyze-usb.title" xml:space="preserve">
+    <value>Review the operation plan</value>
+  </data>
+  <data name="choose-iso.action_choose" xml:space="preserve">
+    <value>Choose ISO</value>
+  </data>
+  <data name="choose-iso.status_mounting" xml:space="preserve">
+    <value>Mounting and analyzing…</value>
+  </data>
+  <data name="choose-iso.subtitle" xml:space="preserve">
+    <value>Select installation media. The importer rejects non-ISO files, then wInstaller mounts it read-only to analyze.</value>
+  </data>
+  <data name="choose-iso.title" xml:space="preserve">
+    <value>Choose an ISO file</value>
+  </data>
+  <data name="confirm-erase.action_cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="confirm-erase.action_confirm" xml:space="preserve">
+    <value>Erase and Create Bootable USB</value>
+  </data>
+  <data name="confirm-erase.detail_format" xml:space="preserve">
+    <value>Identifier: {identifier} · Capacity: {capacity} · Volumes: {volumes}</value>
+  </data>
+  <data name="confirm-erase.field_placeholder" xml:space="preserve">
+    <value>Type {drive_name}</value>
+  </data>
+  <data name="confirm-erase.simulate_body" xml:space="preserve">
+    <value>Run the full sequence without erasing anything.</value>
+  </data>
+  <data name="confirm-erase.simulate_title" xml:space="preserve">
+    <value>Simulate (dry-run)</value>
+  </data>
+  <data name="confirm-erase.subtitle" xml:space="preserve">
+    <value>Type the exact USB drive name to unlock the destructive operation.</value>
+  </data>
+  <data name="confirm-erase.title" xml:space="preserve">
+    <value>Confirm erase</value>
+  </data>
+  <data name="confirm-erase.warning" xml:space="preserve">
+    <value>All data on {drive_name} will be erased.</value>
+  </data>
+  <data name="create-usb.action_cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="create-usb.subtitle_real" xml:space="preserve">
+    <value>wInstaller is preparing the drive, copying files, and validating boot media.</value>
+  </data>
+  <data name="create-usb.subtitle_simulate" xml:space="preserve">
+    <value>Dry-run mode: wInstaller runs the full checklist without executing any destructive command.</value>
+  </data>
+  <data name="create-usb.title_real" xml:space="preserve">
+    <value>Creating bootable USB</value>
+  </data>
+  <data name="create-usb.title_simulate" xml:space="preserve">
+    <value>Simulating USB creation</value>
+  </data>
+  <data name="done.subtitle_real" xml:space="preserve">
+    <value>The installer USB was created, validated, and safely ejected.</value>
+  </data>
+  <data name="done.subtitle_simulate" xml:space="preserve">
+    <value>The simulated checklist completed. Turn off Simulate to create real media.</value>
+  </data>
+  <data name="done.title_real" xml:space="preserve">
+    <value>Bootable USB is ready</value>
+  </data>
+  <data name="done.title_simulate" xml:space="preserve">
+    <value>Dry run completed</value>
+  </data>
+  <data name="insert-usb.action_refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="insert-usb.empty_message" xml:space="preserve">
+    <value>Plug in a USB drive, then choose Refresh. Internal disks are never shown.</value>
+  </data>
+  <data name="insert-usb.empty_title" xml:space="preserve">
+    <value>Connect a removable USB drive</value>
+  </data>
+  <data name="insert-usb.status_looking" xml:space="preserve">
+    <value>Looking for removable drives…</value>
+  </data>
+  <data name="insert-usb.subtitle" xml:space="preserve">
+    <value>Internal disks are hidden and refused by the planning engine.</value>
+  </data>
+  <data name="insert-usb.title" xml:space="preserve">
+    <value>Select a removable USB drive</value>
+  </data>
+  <data name="use-with-vmware.action_open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="use-with-vmware.detected_title" xml:space="preserve">
+    <value>Virtualization app detected</value>
+  </data>
+  <data name="use-with-vmware.license_reminder" xml:space="preserve">
+    <value>Windows may require a valid license.</value>
+  </data>
+  <data name="use-with-vmware.not_installed_message" xml:space="preserve">
+    <value>You can still use the USB you created. Install a virtualization app to continue in a VM.</value>
+  </data>
+  <data name="use-with-vmware.not_installed_title" xml:space="preserve">
+    <value>No supported virtualization app is installed</value>
+  </data>
+  <data name="use-with-vmware.subtitle" xml:space="preserve">
+    <value>wInstaller does not create or start virtual machines without explicit user intent.</value>
+  </data>
+  <data name="use-with-vmware.title" xml:space="preserve">
+    <value>Use with a virtualization app</value>
+  </data>
+  <data name="verify-iso.field_boot_files" xml:space="preserve">
+    <value>Boot files</value>
+  </data>
+  <data name="verify-iso.field_confidence" xml:space="preserve">
+    <value>Confidence</value>
+  </data>
+  <data name="verify-iso.field_os" xml:space="preserve">
+    <value>Operating system</value>
+  </data>
+  <data name="verify-iso.field_wim_status" xml:space="preserve">
+    <value>WIM status</value>
+  </data>
+  <data name="verify-iso.subtitle" xml:space="preserve">
+    <value>wInstaller explains what it detected before a USB drive is selected.</value>
+  </data>
+  <data name="verify-iso.title" xml:space="preserve">
+    <value>Verify the installer</value>
+  </data>
+  <data name="verify-iso.wim_no_split" xml:space="preserve">
+    <value>No split required</value>
+  </data>
+  <data name="verify-iso.wim_split_required" xml:space="preserve">
+    <value>Split required</value>
+  </data>
+  <data name="welcome.info_confirmation_body" xml:space="preserve">
+    <value>Erase is blocked until the drive name is typed.</value>
+  </data>
+  <data name="welcome.info_confirmation_title" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
+  <data name="welcome.info_iso_body" xml:space="preserve">
+    <value>Choose Windows or Linux installation media.</value>
+  </data>
+  <data name="welcome.info_iso_title" xml:space="preserve">
+    <value>ISO file</value>
+  </data>
+  <data name="welcome.info_local_body" xml:space="preserve">
+    <value>Every operation runs on this machine. No uploads.</value>
+  </data>
+  <data name="welcome.info_local_title" xml:space="preserve">
+    <value>Local only</value>
+  </data>
+  <data name="welcome.info_usb_body" xml:space="preserve">
+    <value>Use removable media with enough capacity.</value>
+  </data>
+  <data name="welcome.info_usb_title" xml:space="preserve">
+    <value>USB drive</value>
+  </data>
+  <data name="welcome.subtitle" xml:space="preserve">
+    <value>wInstaller guides ISO selection, USB verification, erase confirmation, copy planning, validation, and virtualization handoff.</value>
+  </data>
+  <data name="welcome.title" xml:space="preserve">
+    <value>Create a bootable installer USB</value>
+  </data>
+</root>
