@@ -6,11 +6,11 @@ Use this prompt when asking an AI coding agent to improve test coverage.
 You are strengthening wInstaller's test suite.
 
 Read:
-- AI_RULES.md
-- REQUIREMENTS.md
-- ARCHITECTURE.md
-- BOOTABLE_USB_ENGINE.md
-- TERMINAL_AUTOMATION.md
+- docs/specs/AI_RULES.md
+- docs/specs/REQUIREMENTS.md
+- docs/specs/ARCHITECTURE.md
+- docs/specs/BOOTABLE_USB_ENGINE.md
+- docs/specs/TERMINAL_AUTOMATION.md
 - SECURITY.md
 
 Task:

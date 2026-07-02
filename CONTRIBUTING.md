@@ -2,13 +2,13 @@
 
 wInstaller is a multi-platform project: three native UIs (SwiftUI/macOS, WinUI3/
 Windows, GTK4-libadwaita/Linux) sharing one Rust core engine. Read
-[AI_RULES.md](AI_RULES.md) before making any change — it applies to human and AI
+[AI_RULES.md](docs/specs/AI_RULES.md) before making any change — it applies to human and AI
 contributors alike. Read the [ADRs](docs/adr/) for the architecture reasoning
 behind the current shape of the project.
 
 ## Before you start
 
-1. Read [AI_RULES.md](AI_RULES.md) and [PRODUCT.md](PRODUCT.md).
+1. Read [AI_RULES.md](docs/specs/AI_RULES.md) and [PRODUCT.md](docs/specs/PRODUCT.md).
 2. If your change affects behavior described in a spec doc (`BOOTABLE_USB_ENGINE.md`,
    `TERMINAL_AUTOMATION.md`, `USER_FLOW.md`, `ARCHITECTURE.md`, `SECURITY.md`,
    `DESIGN_SYSTEM.md`), update that doc in the same PR.

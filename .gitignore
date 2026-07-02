@@ -17,3 +17,7 @@ xcuserdata/
 # Logs
 *.log
 
+# Python
+__pycache__/
+*.pyc
+

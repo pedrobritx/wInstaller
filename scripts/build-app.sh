@@ -2,7 +2,7 @@
 # Build wInstaller.app, a real macOS application bundle, from the SwiftPM
 # executable target. macOS only.
 #
-# Usage: Scripts/build-app.sh [output-dir]
+# Usage: scripts/build-app.sh [output-dir]
 # Result: <output-dir>/wInstaller.app  (default output-dir: ./build)
 set -euo pipefail
 
@@ -26,7 +26,7 @@ cp "$ROOT/Sources/WInstallerApp/Info.plist" "$CONTENTS/Info.plist"
 # App icon: build the .icns if missing (needs the generated iconset).
 if [[ ! -f "$ROOT/Assets/AppIcon.icns" ]]; then
 	echo "==> Building AppIcon.icns"
-	"$ROOT/Scripts/make-icns.sh" || echo "warning: could not build AppIcon.icns; app will use the default icon"
+	"$ROOT/scripts/make-icns.sh" || echo "warning: could not build AppIcon.icns; app will use the default icon"
 fi
 if [[ -f "$ROOT/Assets/AppIcon.icns" ]]; then
 	cp "$ROOT/Assets/AppIcon.icns" "$CONTENTS/Resources/AppIcon.icns"

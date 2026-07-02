@@ -52,7 +52,7 @@ The macOS app is feature-complete for the first-release happy path:
 > Always verify the target and prefer the Simulate toggle first. Destructive
 > operations have not been run on hardware in CI — test on a spare USB.
 
-Windows and Linux native apps are planned (see [ROADMAP.md](ROADMAP.md) and the
+Windows and Linux native apps are planned (see [ROADMAP.md](docs/specs/ROADMAP.md) and the
 phased delivery plan referenced from the ADRs).
 
 ## Building from source
@@ -78,7 +78,7 @@ To build a real `.app` bundle:
 
 ```bash
 python3 Assets/Icon/generate_icon.py   # generate app icon assets
-Scripts/build-app.sh                   # assemble build/wInstaller.app
+scripts/build-app.sh                   # assemble build/wInstaller.app
 open build/wInstaller.app
 ```
 
@@ -131,7 +131,7 @@ wInstaller should feel like something a first-party disk utility would be if it
 actually explained itself: it explains what it found, asks before anything
 destructive happens, validates the result, and never leaves the machine it runs
 on. Read the [full manifesto on the landing page](https://pedrobritx.github.io/winstaller/)
-or [VISION.md](VISION.md) for the complete set of interaction principles.
+or [VISION.md](docs/specs/VISION.md) for the complete set of interaction principles.
 
 ## Architecture
 
@@ -144,32 +144,32 @@ wInstaller is three native UIs sharing one Rust core engine:
 
 The core (state machine, disk/ISO domain models, error taxonomy, and the
 per-OS `SystemAdapter` trait) is the *only* shared layer — each UI is fully
-native, with no cross-platform UI framework. See [ARCHITECTURE.md](ARCHITECTURE.md)
+native, with no cross-platform UI framework. See [ARCHITECTURE.md](docs/specs/ARCHITECTURE.md)
 and every decision record under [docs/adr/](docs/adr/), starting with
 [docs/adr/0001-core-language-and-ffi.md](docs/adr/0001-core-language-and-ffi.md).
 
 ## Documentation Map
 
-- [PRODUCT.md](PRODUCT.md): mission, users, success criteria, and non-goals.
-- [VISION.md](VISION.md): product philosophy and interaction principles.
-- [REQUIREMENTS.md](REQUIREMENTS.md): functional and non-functional requirements.
-- [USER_FLOW.md](USER_FLOW.md): screen-by-screen assistant flow.
-- [ARCHITECTURE.md](ARCHITECTURE.md): app structure, modules, and state model.
-- [UI_GUIDELINES.md](UI_GUIDELINES.md): per-OS interface rules.
-- [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md): reusable visual and component standards.
-- [TERMINAL_AUTOMATION.md](TERMINAL_AUTOMATION.md): allowed commands, policies, and error recovery.
-- [BOOTABLE_USB_ENGINE.md](BOOTABLE_USB_ENGINE.md): bootable media engine state machine.
-- [VMWARE_INTEGRATION.md](VMWARE_INTEGRATION.md): virtualization detection and handoff behavior.
+- [PRODUCT.md](docs/specs/PRODUCT.md): mission, users, success criteria, and non-goals.
+- [VISION.md](docs/specs/VISION.md): product philosophy and interaction principles.
+- [REQUIREMENTS.md](docs/specs/REQUIREMENTS.md): functional and non-functional requirements.
+- [USER_FLOW.md](docs/specs/USER_FLOW.md): screen-by-screen assistant flow.
+- [ARCHITECTURE.md](docs/specs/ARCHITECTURE.md): app structure, modules, and state model.
+- [UI_GUIDELINES.md](docs/specs/UI_GUIDELINES.md): per-OS interface rules.
+- [DESIGN_SYSTEM.md](docs/specs/DESIGN_SYSTEM.md): reusable visual and component standards.
+- [TERMINAL_AUTOMATION.md](docs/specs/TERMINAL_AUTOMATION.md): allowed commands, policies, and error recovery.
+- [BOOTABLE_USB_ENGINE.md](docs/specs/BOOTABLE_USB_ENGINE.md): bootable media engine state machine.
+- [VMWARE_INTEGRATION.md](docs/specs/VMWARE_INTEGRATION.md): virtualization detection and handoff behavior.
 - [SECURITY.md](SECURITY.md): local-only trust model and permission strategy.
-- [ICON_GUIDELINES.md](ICON_GUIDELINES.md): app icon and interface icon direction.
-- [AI_RULES.md](AI_RULES.md): implementation rules for coding agents.
-- [ROADMAP.md](ROADMAP.md): phased delivery plan.
+- [ICON_GUIDELINES.md](docs/specs/ICON_GUIDELINES.md): app icon and interface icon direction.
+- [AI_RULES.md](docs/specs/AI_RULES.md): implementation rules for coding agents.
+- [ROADMAP.md](docs/specs/ROADMAP.md): phased delivery plan.
 - [docs/adr/](docs/adr/): architecture decision records for the multi-platform evolution.
 - [docs/screen-inventory.yaml](docs/screen-inventory.yaml): canonical screen/step registry used for cross-platform parity checks.
 
 ## Contributing
 
-Read [AI_RULES.md](AI_RULES.md) and [CONTRIBUTING.md](CONTRIBUTING.md) before
+Read [AI_RULES.md](docs/specs/AI_RULES.md) and [CONTRIBUTING.md](CONTRIBUTING.md) before
 implementing a feature. Because the three UIs are separate native codebases
 sharing only the core engine, a user-visible feature must be reflected across
 all three (or explicitly tracked as pending) — see
