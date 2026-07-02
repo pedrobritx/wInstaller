@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wInstaller — a calm, native bootable USB installer</title>
+  <meta name="description" content="wInstaller is a native assistant for creating bootable Windows and Linux USB installers on macOS, Windows, and Linux. No telemetry, no uploads, local only.">
+  <link rel="icon" href="assets/icon-512.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="hero container">
+    <img class="icon" src="assets/icon-512.png" alt="wInstaller icon">
+    <h1>wInstaller</h1>
+    <p class="tagline">A calm, native assistant for building bootable Windows and Linux USB installers — on macOS, Windows, and Linux. No telemetry, no uploads, everything runs locally.</p>
+    <div class="downloads">
+      <a class="download-button" href="https://github.com/pedrobritx/winstaller/releases">
+        <span class="platform-name">macOS</span>
+        <span class="status-badge">Download</span>
+      </a>
+      <a class="download-button" href="https://github.com/pedrobritx/winstaller/releases">
+        <span class="platform-name">Windows</span>
+        <span class="status-badge">Coming soon</span>
+      </a>
+      <a class="download-button" href="https://github.com/pedrobritx/winstaller/releases">
+        <span class="platform-name">Linux</span>
+        <span class="status-badge">Coming soon</span>
+      </a>
+    </div>
+  </header>
+
+  <section class="manifesto container">
+    <h2>Why I built this</h2>
+    <p>
+      Creating a Windows or Linux installer USB usually means a brittle chain of
+      Terminal commands: find the right disk, erase it, mount an ISO, copy files,
+      split oversized Windows images, and hope the result actually boots. One
+      mistake and you've erased the wrong drive, or produced media that looks
+      complete but doesn't work.
+    </p>
+    <p>
+      wInstaller exists to make that workflow feel like a first-party assistant
+      instead of a shell script you're afraid to run. It explains what it found,
+      asks before anything destructive happens, validates the result, and never
+      leaves this machine.
+    </p>
+    <blockquote>
+      "Destructive actions are sacred. The app must slow down, name the selected
+      drive, show capacity and identifier, and require explicit confirmation."
+      — from wInstaller's design principles
+    </blockquote>
+    <ul class="principles">
+      <li><strong>Native first.</strong> No cross-platform UI framework, ever — SwiftUI on macOS, WinUI on Windows, GTK on Linux.</li>
+      <li><strong>Local trust.</strong> No telemetry, no uploads, no remote processing, no vague "optimizing" language.</li>
+      <li><strong>Automation with consent.</strong> The app automates repetitive work but never executes a destructive operation without an explicit confirmation.</li>
+      <li><strong>Explain while doing.</strong> When a constraint appears — like a Windows image too large for FAT32 — wInstaller explains it at the moment it matters.</li>
+    </ul>
+    <img class="screenshot" src="assets/product-direction.png" alt="wInstaller product direction mockup">
+  </section>
+
+  <section class="about container">
+    <h2>Developer</h2>
+    <p>wInstaller is built and maintained by Pedro Brito.</p>
+    <div class="about-links">
+      <a href="https://pedrobritx.github.io/EwP">Linktree</a>
+      <a href="https://www.buymeacoffee.com/pedrobritx">Buy Me a Coffee</a>
+      <a href="https://github.com/pedrobritx/winstaller">GitHub — Contribute</a>
+    </div>
+  </section>
+
+  <section class="license container">
+    <h2>License</h2>
+    <div class="license-summary">
+      <p>
+        wInstaller is free to use, share, modify, and fork for any
+        <strong>noncommercial</strong> purpose, including by individuals,
+        students, IT professionals, nonprofits, and schools — forks must stay
+        under the same noncommercial terms.
+      </p>
+      <p>
+        Commercial use requires a separate license — see
+        <a href="https://github.com/pedrobritx/winstaller/blob/main/COMMERCIAL-LICENSE.md">COMMERCIAL-LICENSE.md</a>
+        for how to request one, or read the full
+        <a href="https://github.com/pedrobritx/winstaller/blob/main/LICENSE.md">LICENSE.md</a>.
+      </p>
+    </div>
+  </section>
+
+  <footer class="container">
+    <p>wInstaller — local-only, no telemetry, native on every platform.</p>
+  </footer>
+
+</body>
+</html>

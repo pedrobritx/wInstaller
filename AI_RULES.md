@@ -4,37 +4,67 @@ These rules are for AI coding agents working in this repository.
 
 ## Product Rules
 
-- Build wInstaller as a native macOS app.
-- Treat the app as an assistant, not a generic disk utility.
+- Build wInstaller as **three native apps** — macOS, Windows, Linux — sharing
+  **one Rust core engine**. No platform ships a second-class or web-wrapped UI.
+- Treat each app as an assistant, not a generic disk utility.
 - Every destructive action must be explained before it is offered.
 - Every operation must be local unless a future requirement explicitly says otherwise.
 - Never add telemetry by default.
 - Never upload ISO files, logs, disk names, or diagnostics.
+- A feature that is user-visible must be reflected in `docs/screen-inventory.yaml`
+  and implemented (or explicitly, visibly tracked as pending) across all three
+  UIs — see `CONTRIBUTING.md` and `docs/adr/0008-feature-parity-enforcement.md`.
 
-## Technical Rules
+## Core Rules (shared engine, `core/`)
 
-- Use Swift 6.
-- Prefer SwiftUI.
-- Use AppKit only for macOS integrations that require it.
-- Use Swift concurrency for long-running work.
-- Keep command planning testable without real disks.
+- The core is Rust. It contains the state machine, domain models, error
+  taxonomy, and the `SystemAdapter` trait — see `docs/adr/0001-core-language-and-ffi.md`
+  and `docs/adr/0002-os-adapter-interface.md`.
+- OS-specific logic (which command to run, how to parse its output) lives only
+  in that OS's adapter (`core/src/adapters/{macos,windows,linux}.rs`) — never in
+  the OS-agnostic engine.
+- Every adapter's parsing logic must be a pure function with fixture tests
+  (fixture in, typed struct out) — no adapter parser ships without a fixture
+  test, regardless of which OS it targets.
+- Keep command planning testable without real disks, on every OS.
 - Use typed state machines for the USB creation flow.
 - Use typed errors with recovery actions.
-- Avoid force unwraps.
-- Avoid deprecated APIs.
-- Avoid global mutable state.
+- Avoid string-interpolated shell commands on any OS — argv-only invocation.
 - Avoid hardcoded user paths.
-- Avoid string-interpolated shell commands.
+
+## Technical Rules (per-platform UI shells)
+
+- **macOS** (`apps/macos/`): Swift 6, SwiftUI first, AppKit only for macOS
+  integrations that require it, Swift concurrency for long-running work, calling
+  into the core via the `WInstallerCoreFFI` wrapper package. Avoid force
+  unwraps, deprecated APIs, and global mutable state.
+- **Windows** (`apps/windows/`): WinUI 3 + C#/.NET, calling into the core via
+  `WInstaller.Core.Interop`. Avoid global mutable state and hardcoded paths.
+- **Linux** (`apps/linux/`): Rust + `gtk4-rs` + libadwaita, importing the `core`
+  crate directly (no FFI boundary). Avoid global mutable state and hardcoded
+  paths.
 
 ## UI Rules
 
-- Follow Apple's Human Interface Guidelines.
-- Use native controls.
-- Use SF Symbols for interface icons.
-- Do not introduce Bootstrap, Material Design, Electron, React Native, Flutter, or other third-party UI frameworks.
-- Do not build a marketing landing page as the first screen.
-- Use the assistant workflow as the first screen.
-- Respect VoiceOver, keyboard navigation, Reduce Motion, Reduce Transparency, Increase Contrast, light mode, and dark mode.
+- Follow each OS's native human-interface guidelines (Apple HIG on macOS,
+  Fluent on Windows, GNOME HIG on Linux).
+- Use native controls on every platform — no Bootstrap, Material Design,
+  Electron, React Native, Flutter, or other cross-platform *UI* framework on any
+  OS. (A shared non-UI Rust core is not a cross-platform UI framework — see
+  `PRODUCT.md`'s Multi-Platform Direction section.)
+- Use each platform's native icon system (SF Symbols on macOS, Fluent/Segoe
+  icons on Windows, Adwaita/symbolic icons on Linux).
+- Do not build a marketing landing page as the first screen of any app.
+- Use the assistant workflow as the first screen, on every platform.
+- User-facing copy comes from `shared/strings/copy.yaml`, not hardcoded
+  per-platform strings, so text cannot drift between OSes.
+- Visual accents/spacing come from `shared/design-tokens/tokens.json`, layered on
+  top of each platform's native materials/system colors — never a fully custom
+  theme that overrides native look-and-feel.
+- Respect each platform's accessibility settings: VoiceOver/keyboard navigation/
+  Reduce Motion/Reduce Transparency/Increase Contrast/light+dark mode on macOS;
+  Narrator/keyboard navigation/high contrast/light+dark theme on Windows;
+  Orca/keyboard navigation/high contrast/light+dark theme on Linux.
 
 ## Terminal Rules
 

@@ -1,0 +1,9 @@
+{
+  "ignorePatterns": [
+    { "pattern": "^https://github.com/pedrobritx/winstaller/releases" },
+    { "pattern": "^https://www.buymeacoffee.com/" },
+    { "pattern": "^https://pedrobritx.github.io/winstaller" }
+  ],
+  "retryOn429": true,
+  "aliveStatusCodes": [200, 206, 429]
+}

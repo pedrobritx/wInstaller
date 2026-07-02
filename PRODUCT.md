@@ -31,8 +31,22 @@ Creating a Windows or Linux installer USB on macOS often requires a brittle chai
 - wInstaller does not download pirated operating system images or bypass licensing.
 - wInstaller does not replace VMware Fusion, Parallels Desktop, UTM, or Boot Camp.
 - wInstaller does not hide destructive operations behind vague progress text.
-- wInstaller does not introduce cross-platform UI frameworks.
+- wInstaller does not introduce a cross-platform *UI* framework (Electron, React
+  Native, Flutter, Tauri-as-a-UI-layer). Each OS gets a fully native UI: SwiftUI
+  on macOS, WinUI 3 on Windows, GTK4/libadwaita on Linux. This is not in tension
+  with sharing a non-UI core engine (see `docs/adr/0001-core-language-and-ffi.md`)
+  — the ban is specifically on shared *UI* frameworks, not on shared logic.
 - wInstaller does not upload ISO contents, disk names, logs, or diagnostics.
+
+## Multi-Platform Direction
+
+wInstaller is expanding from macOS-only to macOS, Windows, and Linux. Each
+platform gets a fully native, idiomatic UI — no cross-platform UI framework, no
+compromise on look-and-feel. The one thing that *is* shared across all three is
+the core engine (state machine, disk/ISO domain models, error taxonomy, and the
+OS-adapter interface), implemented once in Rust and consumed natively by each UI.
+See `docs/adr/` for the full set of architecture decisions and the top-level
+delivery plan for phasing.
 
 ## Competitive Context
 
