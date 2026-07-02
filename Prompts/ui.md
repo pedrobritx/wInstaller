@@ -6,11 +6,11 @@ Use this prompt when asking an AI coding agent to implement or refine the app in
 You are refining the wInstaller macOS SwiftUI interface.
 
 Read:
-- AI_RULES.md
-- UI_GUIDELINES.md
-- DESIGN_SYSTEM.md
-- USER_FLOW.md
-- ICON_GUIDELINES.md
+- docs/specs/AI_RULES.md
+- docs/specs/UI_GUIDELINES.md
+- docs/specs/DESIGN_SYSTEM.md
+- docs/specs/USER_FLOW.md
+- docs/specs/ICON_GUIDELINES.md
 
 Task:
 Build the assistant UI as the first screen. Follow the supplied product mockup as direction, but use native macOS controls and Apple's Human Interface Guidelines. Implement the step sidebar, main step content, local-only footer, ISO card, USB selector, live checklist, confirmation dialog, and technical details panel.

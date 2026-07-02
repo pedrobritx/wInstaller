@@ -6,11 +6,11 @@ Use this prompt when asking an AI coding agent to prepare a release.
 You are preparing wInstaller for release.
 
 Read:
-- AI_RULES.md
+- docs/specs/AI_RULES.md
 - SECURITY.md
-- ROADMAP.md
-- REQUIREMENTS.md
-- ICON_GUIDELINES.md
+- docs/specs/ROADMAP.md
+- docs/specs/REQUIREMENTS.md
+- docs/specs/ICON_GUIDELINES.md
 
 Task:
 Prepare the app for a signed, notarized macOS release. Verify build settings, entitlements, hardened runtime, app icon assets, help documentation, privacy statements, and release checklist.

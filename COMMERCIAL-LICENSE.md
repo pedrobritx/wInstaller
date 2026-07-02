@@ -50,4 +50,4 @@ under the same noncommercial terms, so the guarantee can't be stripped out
 downstream). Commercial use funds continued development directly instead of
 through telemetry, ads, or a freemium paywall inside the app itself — both of
 which conflict with this project's local-only, no-telemetry trust model (see
-[SECURITY.md](SECURITY.md) and [VISION.md](VISION.md)).
+[SECURITY.md](SECURITY.md) and [VISION.md](docs/specs/VISION.md)).

@@ -6,13 +6,13 @@ Use this prompt when asking an AI coding agent to start implementing wInstaller.
 You are building wInstaller, a native macOS assistant for creating bootable USB drives from Windows and Linux ISO files.
 
 Read these files first:
-- AI_RULES.md
-- PRODUCT.md
-- REQUIREMENTS.md
-- USER_FLOW.md
-- ARCHITECTURE.md
-- BOOTABLE_USB_ENGINE.md
-- TERMINAL_AUTOMATION.md
+- docs/specs/AI_RULES.md
+- docs/specs/PRODUCT.md
+- docs/specs/REQUIREMENTS.md
+- docs/specs/USER_FLOW.md
+- docs/specs/ARCHITECTURE.md
+- docs/specs/BOOTABLE_USB_ENGINE.md
+- docs/specs/TERMINAL_AUTOMATION.md
 - SECURITY.md
 
 Task:

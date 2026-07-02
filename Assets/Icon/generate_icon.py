@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate the wInstaller app icon with no third-party dependencies.
 
-The icon follows ICON_GUIDELINES.md: a rounded macOS tile, a brushed-aluminum
+The icon follows docs/specs/ICON_GUIDELINES.md: a rounded macOS tile, a brushed-aluminum
 USB-C flash drive, a sapphire connector, a small status LED, and a neutral "OS"
 glyph. No Windows logo, no long text.
 
@@ -12,7 +12,7 @@ Outputs (relative to the repo root):
   Assets/AppIcon.appiconset/   -> Xcode asset catalog (icon_<size>.png + Contents.json)
   Assets/AppIcon.iconset/      -> iconutil input (icon_16x16.png ... icon_512x512@2x.png)
 
-Run `Scripts/make-icns.sh` on a Mac to turn the iconset into AppIcon.icns.
+Run `scripts/make-icns.sh` on a Mac to turn the iconset into AppIcon.icns.
 """
 
 import math

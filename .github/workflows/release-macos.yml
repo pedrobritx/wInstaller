@@ -34,7 +34,7 @@ jobs:
           xcodebuild -version
 
       - name: Build wInstaller.app
-        run: Scripts/build-app.sh "$RUNNER_TEMP/build"
+        run: scripts/build-app.sh "$RUNNER_TEMP/build"
 
       - name: Zip app bundle
         run: |

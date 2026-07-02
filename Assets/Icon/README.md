@@ -9,5 +9,5 @@ Recommended files:
 - `winstaller-icon.sketch`: Sketch source, if used.
 - `AppIcon.appiconset`: Xcode export.
 
-The icon direction is defined in [../../ICON_GUIDELINES.md](../../ICON_GUIDELINES.md).
+The icon direction is defined in [../../docs/specs/ICON_GUIDELINES.md](../../docs/specs/ICON_GUIDELINES.md).
 
