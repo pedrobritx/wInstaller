@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>WInstaller.Core</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <!-- PowerShell helper scripts ship next to the binaries so every system call
+       stays argv-only (-File script.ps1 -Param value), never a shell-interpolated
+       string. See TERMINAL_AUTOMATION.md. -->
+  <ItemGroup>
+    <None Update="Scripts\*.ps1" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="WInstaller.Core.Tests" />
+  </ItemGroup>
+
+</Project>

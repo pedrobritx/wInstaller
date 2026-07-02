@@ -11,6 +11,7 @@
 
 <p align="center">
   <a href="https://github.com/pedrobritx/winstaller/actions/workflows/ci-macos.yml"><img alt="macOS CI" src="https://github.com/pedrobritx/winstaller/actions/workflows/ci-macos.yml/badge.svg"></a>
+  <a href="https://github.com/pedrobritx/winstaller/actions/workflows/ci-windows.yml"><img alt="Windows CI" src="https://github.com/pedrobritx/winstaller/actions/workflows/ci-windows.yml/badge.svg"></a>
   <a href="https://github.com/pedrobritx/winstaller/actions/workflows/docs-lint.yml"><img alt="Docs lint" src="https://github.com/pedrobritx/winstaller/actions/workflows/docs-lint.yml/badge.svg"></a>
   <a href="LICENSE.md"><img alt="License: Noncommercial" src="https://img.shields.io/badge/license-noncommercial-blue"></a>
 </p>
@@ -22,16 +23,19 @@ before destructive actions, validates the result, and keeps everything local.
 
 **wInstaller is expanding from macOS-only to macOS, Windows, and Linux.** Each
 platform gets a fully native UI — SwiftUI, WinUI 3, and GTK4/libadwaita — built
-on one shared Rust core engine. See [Architecture](#architecture) below and
-[docs/adr/](docs/adr/) for the full reasoning.
+on one shared core engine. The macOS and Windows apps have landed; Linux is
+next. See [Architecture](#architecture) below and [docs/adr/](docs/adr/) for
+the full reasoning.
 
 ## Download
 
 | macOS | Windows | Linux |
 |---|---|---|
-| [Releases](https://github.com/pedrobritx/winstaller/releases) | *Coming soon (Phase 3)* | *Coming soon (Phase 2)* |
+| [Releases](https://github.com/pedrobritx/winstaller/releases) | [Releases](https://github.com/pedrobritx/winstaller/releases) | *Coming soon (Phase 2)* |
 
-Until signed release artifacts exist for a platform, build from source — see below.
+Release artifacts are currently unsigned (Gatekeeper/SmartScreen will warn on
+first launch); signing and notarization are tracked for 1.0. You can always
+build from source instead — see below.
 
 ## Status
 
@@ -48,11 +52,25 @@ The macOS app is feature-complete for the first-release happy path:
 - Liquid Glass SwiftUI interface (macOS 26) with native-material fallback
 - App icon and `.app` packaging script
 
+The Windows app covers the same first-release happy path natively
+(`apps/windows/`):
+
+- C# domain core mirroring the same state machine and safety gates
+  (`WInstaller.Core`, unit-tested on Windows *and* Linux in CI)
+- Disk enumeration via PowerShell storage cmdlets with boot/system-disk
+  filtering at every layer
+- Read-only ISO mount + inspection (`Mount-DiskImage -Access ReadOnly`)
+- Real erase → GPT/FAT32 format → `robocopy` → validate → eject pipeline
+- `DISM /Split-Image` for oversized `install.wim` files (no third-party tools)
+- A single UAC prompt scoped to the destructive step only (ADR-0003)
+- Local logging with user-profile redaction, Simulate (dry-run) mode
+- WinUI 3 assistant UI with Mica, generated from the shared string table
+
 > **Safety note:** Real disk operations format the selected removable drive.
 > Always verify the target and prefer the Simulate toggle first. Destructive
 > operations have not been run on hardware in CI — test on a spare USB.
 
-Windows and Linux native apps are planned (see [ROADMAP.md](docs/specs/ROADMAP.md) and the
+The Linux native app is planned next (see [ROADMAP.md](docs/specs/ROADMAP.md) and the
 phased delivery plan referenced from the ADRs).
 
 ## Building from source
@@ -96,11 +114,28 @@ swift test \
 
 **Requirements:** Swift 6.0+, macOS 15.0+, Xcode 16+ or Command Line Tools.
 
-### Windows *(planned — Phase 3)*
+### Windows
 
-The Windows app (WinUI 3 + C#/.NET, `apps/windows/`) does not exist yet. Once it
-lands, build instructions will appear here (`dotnet build` against
-`WInstaller.sln`).
+Requires Windows 10 1809+ and the [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
+
+```powershell
+git clone https://github.com/pedrobritx/winstaller.git
+cd winstaller/apps/windows
+
+dotnet build WInstaller.sln          # core + tests + WinUI 3 app
+dotnet test WInstaller.Core.Tests    # engine/parser/executor tests
+dotnet run --project WInstaller.App  # launch the assistant
+```
+
+To produce the portable release build (what CI attaches to releases):
+
+```powershell
+dotnet publish WInstaller.App -c Release -r win-x64 -p:Platform=x64 `
+  -p:WindowsAppSDKSelfContained=true --self-contained true -o publish
+```
+
+See [apps/windows/README.md](apps/windows/README.md) for how the app drives
+PowerShell storage cmdlets, robocopy, and DISM, and for the elevation model.
 
 ### Linux *(planned — Phase 2)*
 
@@ -135,7 +170,7 @@ or [VISION.md](docs/specs/VISION.md) for the complete set of interaction princip
 
 ## Architecture
 
-wInstaller is three native UIs sharing one Rust core engine:
+wInstaller is three native UIs sharing one core engine:
 
 - **macOS**: SwiftUI, calling into the core via a Swift wrapper package.
 - **Windows**: WinUI 3 + C#/.NET, calling into the core via P/Invoke.
@@ -147,6 +182,12 @@ per-OS `SystemAdapter` trait) is the *only* shared layer — each UI is fully
 native, with no cross-platform UI framework. See [ARCHITECTURE.md](docs/specs/ARCHITECTURE.md)
 and every decision record under [docs/adr/](docs/adr/), starting with
 [docs/adr/0001-core-language-and-ffi.md](docs/adr/0001-core-language-and-ffi.md).
+
+> **Transition note:** the shared Rust core (ADR-0001) has not landed yet.
+> Today the macOS app implements the core in Swift (`Sources/WInstallerCore`)
+> and the Windows app in C# (`apps/windows/WInstaller.Core`) — both against
+> the same screen registry, shared copy source, and safety rules, so swapping
+> in the Rust core later replaces internals, not behavior.
 
 ## Documentation Map
 
